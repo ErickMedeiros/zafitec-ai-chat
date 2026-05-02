@@ -1,0 +1,29 @@
+@"
+# Python
+.venv/
+.python_packages/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Azure Functions
+local.settings.json
+bin/
+obj/
+_staging/
+deploy.zip
+cred.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+"@ | Out-File -FilePath .gitignore -Encoding utf8 -Force
