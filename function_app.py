@@ -67,10 +67,16 @@ def http_chat(req: func.HttpRequest) -> func.HttpResponse:
                 },
                 {"role": "user", "content": user_message},
             ],
-            max_completion_tokens=800,  # GPT-5 usa este parâmetro (não max_tokens)
+            max_completion_tokens=4000,        # Margem ampla para reasoning + resposta
+            reasoning_effort="minimal",        # GPT-5: minimal | low | medium | high
             # Sem 'temperature' — GPT-5 só aceita o default (=1)
         )
-        answer = completion.choices[0].message.content
+
+        # Logs de diagnóstico (úteis pra debugar reasoning vs. resposta visível)
+        logging.info("Finish reason: %s", completion.choices[0].finish_reason)
+        logging.info("Usage: %s", completion.usage)
+
+        answer = completion.choices[0].message.content or "(resposta vazia do modelo)"
         return _json_response({"response": answer}, 200)
 
     except RateLimitError:
